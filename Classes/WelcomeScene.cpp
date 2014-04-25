@@ -37,5 +37,6 @@ CCScene* WelcomeScene::welcomeScene()
 		CC_SAFE_RELEASE(welcomeLayer);
 		return NULL;
 	}
+	scene->addChild(welcomeLayer);
 	return scene;
 }

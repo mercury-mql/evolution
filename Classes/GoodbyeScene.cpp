@@ -37,5 +37,6 @@ CCScene* GoodbyeScene::goodByeScene()
 		CC_SAFE_RELEASE(goodByeLayer);
 		return NULL;
 	}
+	scene->addChild(goodByeLayer);
 	return scene;
 }
