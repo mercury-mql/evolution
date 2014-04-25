@@ -4,16 +4,15 @@
 #define DIM_NUM 4
 
 MainScene::MainScene()
-	: m_bg(NULL), m_usedCard(NULL), m_unusedCard(NULL),
+	: m_bg(NULL), 
 	m_glOrgX(0), m_glOrgY(0), m_glDstX(0), m_glDstY(0)
 {
-
+	memset(&m_cards, 0x0, sizeof(m_cards));
 }
 
 MainScene::~MainScene()
 {
-	CC_SAFE_RELEASE(m_usedCard);
-	CC_SAFE_RELEASE(m_unusedCard);
+
 }
 
 bool MainScene::init()
@@ -28,12 +27,9 @@ bool MainScene::init()
 		m_bg->setPosition(ccp(m_winSize.width/2, m_winSize.height/2));
 		this->addChild(m_bg);
 
-		m_usedCard = CCArray::create();
-		m_usedCard->retain();
-		m_unusedCard = CCArray::create();
-		m_unusedCard->retain();
-
 		createCardSprites();
+		showRandom();
+		showRandom();
 
 		this->setTouchEnabled(true);
 
@@ -136,8 +132,44 @@ void MainScene::createCardSprites()
 		for (int j=0; j<DIM_NUM; j++)
 		{
 			CardSprite* card = CardSprite::create(2, ccp(unitSize, unitSize));
+            m_cards[i][j] = card;
 			card->setPosition(ccp(unitSize*i+140, unitSize*j+20));
 			addChild(card);
+			card->setVisible(false);
 		}
 	}
 }
+
+void MainScene::showCard(int number, int xOrder, int yOrder)
+{
+	if (number < 0 || xOrder < 0 || xOrder >= DIM_NUM || yOrder < 0 || yOrder >= DIM_NUM)
+	{
+		return;
+	}
+	CardSprite* card = m_cards[xOrder][yOrder];
+	card->setNumber(number);
+	card->setVisible(true);
+}
+
+void MainScene::hideCard(int xOrder, int yOrder)
+{
+	if (xOrder < 0 || xOrder >= DIM_NUM || yOrder < 0 || yOrder >= DIM_NUM)
+	{
+		return;
+	}
+	m_cards[xOrder][yOrder]->setVisible(true);
+}
+
+void MainScene::showRandom()
+{
+	int xOrder = CCRANDOM_0_1() * 4;
+	int yOrder = CCRANDOM_0_1() * 4;
+	int number = (CCRANDOM_0_1()*10 < 5) ? 2 : 4;
+	while(m_cards[xOrder][yOrder]->isVisible())
+	{
+		xOrder = CCRANDOM_0_1() * 4;
+		yOrder = CCRANDOM_0_1() * 4;
+	}
+	showCard(number, xOrder, yOrder);
+}
+

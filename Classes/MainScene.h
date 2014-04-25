@@ -2,6 +2,7 @@
 #define _MAIN_SCENE_H
 
 #include "cocos2d.h"
+#include "CardSprite.h"
 USING_NS_CC;
 
 class MainScene : public CCLayer
@@ -24,12 +25,13 @@ private:
 	void moveUp();
 	void moveDown();
 	void createCardSprites();
-
+	void showCard(int number, int xOrder, int yOrder);
+	void hideCard(int xOrder, int yOrder);
+	void showRandom();
 private:
 	CCSize m_winSize;
 	CCSprite* m_bg;
-	CCArray* m_usedCard;
-	CCArray* m_unusedCard;
+	CardSprite* m_cards[4][4];
 	float m_glOrgX, m_glOrgY, m_glDstX, m_glDstY;
 };
 
