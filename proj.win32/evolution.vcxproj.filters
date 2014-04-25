@@ -18,6 +18,21 @@
     <ClCompile Include="..\Classes\HelloWorldScene.cpp">
       <Filter>Classes</Filter>
     </ClCompile>
+    <ClCompile Include="..\Classes\GoodbyeScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\MainScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\SceneManager.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\WelcomeScene.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Classes\CardSprite.cpp">
+      <Filter>Classes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="main.h">
@@ -27,6 +42,27 @@
       <Filter>Classes</Filter>
     </ClInclude>
     <ClInclude Include="..\Classes\HelloWorldScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Globals.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\GoodbyeScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\MainScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\Resources.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\SceneManager.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\WelcomeScene.h">
+      <Filter>Classes</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Classes\CardSprite.h">
       <Filter>Classes</Filter>
     </ClInclude>
   </ItemGroup>
