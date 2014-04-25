@@ -23,10 +23,13 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+	void createCardSprites();
 
 private:
 	CCSize m_winSize;
 	CCSprite* m_bg;
+	CCArray* m_usedCard;
+	CCArray* m_unusedCard;
 	float m_glOrgX, m_glOrgY, m_glDstX, m_glDstY;
 };
 

@@ -4,22 +4,24 @@
 #include "cocos2d.h"
 USING_NS_CC;
 
-class CardSprite : public CCLayer
+class CardSprite : public CCNode
 {
 public:
 	CardSprite();
 	~CardSprite();
 	bool init();
-	bool init(int value, const CCPoint& pos, const CCSize& size);
-	static CardSprite* create(int value, const CCPoint& pos, const CCSize& size);
+	bool init(int value, const CCSize& size);
+	static CardSprite* create(int value, const CCSize& size);
 	CREATE_FUNC(CardSprite);
 
-	CC_SYNTHESIZE(int, m_number, Number);
+	int getNumber() {return m_number;}
+	void setNumber(int number);
 	void resetValue();
 
 private:
 	CCLayerColor* m_bgColor;
 	CCLabelTTF* m_label;
+	int m_number;
 };
 
 #endif

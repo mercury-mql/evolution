@@ -1,14 +1,19 @@
 #include "MainScene.h"
+#include "CardSprite.h"
+
+#define DIM_NUM 4
 
 MainScene::MainScene()
-	: m_bg(NULL)
+	: m_bg(NULL), m_usedCard(NULL), m_unusedCard(NULL),
+	m_glOrgX(0), m_glOrgY(0), m_glDstX(0), m_glDstY(0)
 {
 
 }
 
 MainScene::~MainScene()
 {
-
+	CC_SAFE_RELEASE(m_usedCard);
+	CC_SAFE_RELEASE(m_unusedCard);
 }
 
 bool MainScene::init()
@@ -22,6 +27,13 @@ bool MainScene::init()
 		m_bg = CCSprite::create();
 		m_bg->setPosition(ccp(m_winSize.width/2, m_winSize.height/2));
 		this->addChild(m_bg);
+
+		m_usedCard = CCArray::create();
+		m_usedCard->retain();
+		m_unusedCard = CCArray::create();
+		m_unusedCard->retain();
+
+		createCardSprites();
 
 		this->setTouchEnabled(true);
 
@@ -114,4 +126,18 @@ void MainScene::moveUp()
 void MainScene::moveDown()
 {
 	CCLOG("down");
+}
+
+void MainScene::createCardSprites()
+{
+	int unitSize = (m_winSize.height - 28)/4;
+	for (int i=0; i<DIM_NUM; i++)
+	{
+		for (int j=0; j<DIM_NUM; j++)
+		{
+			CardSprite* card = CardSprite::create(2, ccp(unitSize, unitSize));
+			card->setPosition(ccp(unitSize*i+140, unitSize*j+20));
+			addChild(card);
+		}
+	}
 }
