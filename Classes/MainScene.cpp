@@ -129,14 +129,14 @@ void MainScene::moveLeft()
 				}
 				if (currentValue == prefixValue)
 				{
-					m_numbers[row][prefixIndex] <<= 1;
 					m_numbers[row][col] = 0;
+					m_numbers[row][prefixIndex] <<= 1;					
 					prefixValue <<= 1;
 				}
 				else
 				{
-					m_numbers[row][prefixIndex+1] = currentValue;
 					m_numbers[row][col] = 0;
+					m_numbers[row][prefixIndex+1] = currentValue;					
 					prefixIndex += 1;
 					prefixValue = currentValue;
 				}
@@ -170,14 +170,14 @@ void MainScene::moveRight()
 				}
 				if (currentValue == prefixValue)
 				{
-					m_numbers[row][prefixIndex] <<= 1;
 					m_numbers[row][col] = 0;
+					m_numbers[row][prefixIndex] <<= 1;					
 					prefixValue <<= 1;
 				}
 				else
 				{
-					m_numbers[row][prefixIndex-1] = currentValue;
 					m_numbers[row][col] = 0;
+					m_numbers[row][prefixIndex-1] = currentValue;					
 					prefixIndex -= 1;
 					prefixValue = currentValue;
 				}
@@ -211,14 +211,14 @@ void MainScene::moveUp()
 				}
 				if (currentValue == prefixValue)
 				{
-					m_numbers[prefixIndex][col] <<= 1;
 					m_numbers[row][col] = 0;
+					m_numbers[prefixIndex][col] <<= 1;					
 					prefixValue <<= 1;
 				}
 				else
 				{
-					m_numbers[prefixIndex+1][col] = currentValue;
 					m_numbers[row][col] = 0;
+					m_numbers[prefixIndex+1][col] = currentValue;					
 					prefixIndex += 1;
 					prefixValue = currentValue;
 				}
@@ -252,14 +252,14 @@ void MainScene::moveDown()
 				}
 				if (currentValue == prefixValue)
 				{
-					m_numbers[prefixIndex][col] <<= 1;
 					m_numbers[row][col] = 0;
+					m_numbers[prefixIndex][col] <<= 1;					
 					prefixValue <<= 1;
 				}
 				else
 				{
-					m_numbers[prefixIndex-1][col] = currentValue;
 					m_numbers[row][col] = 0;
+					m_numbers[prefixIndex-1][col] = currentValue;					
 					prefixIndex -= 1;
 					prefixValue = currentValue;
 				}
@@ -341,6 +341,10 @@ void MainScene::AddRandom(int number)
 
 void MainScene::AddOneRandom()
 {
+	if (!canAddOne())
+	{
+		return;
+	}
 	srand(time(0));
 	int number = (rand() %100 > 75) ? 4 : 2;
 	AddRandom(number);
@@ -352,5 +356,22 @@ void MainScene::AddTowRandom()
 	int number = (rand() %100 > 75) ? 4 : 2;
 	AddRandom(number);
 	AddRandom(number);
+}
+
+bool MainScene::canAddOne()
+{
+	bool ret = false;
+	for (int i=0; i<DIM_NUM; i++)
+	{
+		for (int j=0; j<DIM_NUM; j++)
+		{
+			if (m_numbers[i][j] <= 0)
+			{
+				ret = true;
+				break;
+			}
+		}
+	}
+	return ret;
 }
 
