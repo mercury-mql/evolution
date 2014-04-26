@@ -15,11 +15,14 @@ struct Element
 	int m_b;
 	string m_text;
 	string m_pic;
+
+	Element(int r, int g, int b, const string& txt, const string& pic);
 };
 
-ccColor4B GetColor(int number);
-string GetText(int number);
-string GetPic(int number);
+ccColor4B GetCardColor4B(int number);
+ccColor3B GetCardColor3B(int number);
+string GetCardText(int number);
+string GetCardPic(int number);
 
 
 #endif

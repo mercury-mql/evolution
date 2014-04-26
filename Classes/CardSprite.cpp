@@ -1,4 +1,7 @@
 #include "CardSprite.h"
+#include "Globals.h"
+#include <string>
+using namespace std;
 
 #define INVALID_VALUE 0
 
@@ -26,13 +29,13 @@ bool CardSprite::init()
 bool CardSprite::init(int value, const CCSize& size)
 {
 	m_number = value <= 0 ? INVALID_VALUE : value;
-	const char* text = value <= 0 ? "" : CCString::createWithFormat("%d", value)->getCString();
-	m_bgColor = CCLayerColor::create(ccc4(200, 190, 180, 255), size.width-15, size.height-15);
-	m_label = CCLabelTTF::create(text, "Arial", 20);
+	string text = GetCardText(m_number);
+	m_bgColor = CCLayerColor::create(GetCardColor4B(m_number), size.width-15, size.height-15);
+	m_label = CCLabelTTF::create(text.c_str(), "Arial", 20);
 	CCSize cxtSize = m_bgColor->getContentSize();
 	m_label->setPosition(ccp(cxtSize.width/2, cxtSize.height/2));
-	m_bgColor->addChild(m_label);
-	this->addChild(m_bgColor);
+	this->addChild(m_label, 1);
+	this->addChild(m_bgColor, 0);
 	return true;
 }
 
@@ -53,8 +56,10 @@ CardSprite* CardSprite::create(int value, const CCSize& size)
 void CardSprite::setNumber(int number)
 {
 	m_number = number <= 0 ? INVALID_VALUE : number;
-	const char* text = number <= 0 ? "" : CCString::createWithFormat("%d", number)->getCString();
-	m_label->setString(text);
+	string text = GetCardText(m_number).c_str();
+	m_bgColor->setColor(GetCardColor3B(m_number));
+	m_label->setString(text.c_str());
+	m_label->setColor(ccc3(0,0,0));
 }
 
 void CardSprite::setContentVisible(bool visible)
