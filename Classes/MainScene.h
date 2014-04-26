@@ -35,6 +35,8 @@ private:
 	void AddTowRandom();
 	void AddRandom(int number);
 	bool canAddOne();
+	bool isOver();
+	void checkCards();
 
 	void updateCards();
 private:

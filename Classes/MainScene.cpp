@@ -147,7 +147,8 @@ void MainScene::moveLeft()
 		}
 	}
 	updateCards();
-	AddOneRandom();
+	AddOneRandom();	
+	checkCards();
 }
 
 void MainScene::moveRight()
@@ -191,7 +192,8 @@ void MainScene::moveRight()
 		}
 	}
 	updateCards();
-	AddOneRandom();
+	AddOneRandom();	
+	checkCards();
 }
 
 void MainScene::moveUp()
@@ -236,6 +238,7 @@ void MainScene::moveUp()
 	}
 	updateCards();
 	AddOneRandom();
+	checkCards();
 }
 
 void MainScene::moveDown()
@@ -280,6 +283,7 @@ void MainScene::moveDown()
 	}
 	updateCards();
 	AddOneRandom();
+	checkCards();
 }
 
 void MainScene::updateCards()
@@ -358,16 +362,14 @@ void MainScene::AddOneRandom()
 		return;
 	}
 	srand(time(0));
-	int number = (rand() %100 > 75) ? 4 : 2;
+	int number = (rand() %100 > 85) ? 4 : 2;
 	AddRandom(number);
 }
 
 void MainScene::AddTowRandom()
 {
-	srand(time(0));
-	int number = (rand() %100 > 75) ? 4 : 2;
-	AddRandom(number);
-	AddRandom(number);
+	AddRandom(2);
+	AddRandom(2);
 }
 
 bool MainScene::canAddOne()
@@ -385,5 +387,54 @@ bool MainScene::canAddOne()
 		}
 	}
 	return ret;
+}
+
+bool MainScene::isOver()
+{
+	bool ret = true;
+
+	for (int i=1; i<=2; i++)
+	{
+		for (int j=1; j<=2; j++)
+		{
+			int currentValue = m_numbers[i][j];
+			int leftValue = m_numbers[i-1][j];
+			int rightValue = m_numbers[i+1][j];
+			int upValue = m_numbers[i][j-1];
+			int downValue = m_numbers[i][j+1];
+
+			if (currentValue <= 0 
+				|| leftValue <= 0
+				|| rightValue <= 0  
+				|| upValue <= 0
+				|| downValue <= 0
+				|| m_numbers[i-1][j-1] <= 0
+				|| m_numbers[i-1][j+1] <= 0
+				|| m_numbers[i+1][j-1] <= 0
+				|| m_numbers[i+1][j+1] <= 0)
+			{
+				ret = false;
+				break;
+			}
+
+			if (currentValue == upValue 
+				|| currentValue == downValue
+				|| currentValue == leftValue 
+				|| currentValue == rightValue)
+			{
+				ret = false;
+				break;
+			}
+		}
+	}
+	return ret;
+}
+
+void MainScene::checkCards()
+{
+	if (isOver())
+	{
+		CCLOG("Game Over!");
+	}
 }
 
