@@ -24,10 +24,6 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
-	void moveSpanLeft(int row, int startCol);
-	void moveSpanRight(int row, int startCol);
-	void moveSpanUp(int startRow, int col);
-	void moveSpanDown(int startRow, int col);
 	void createCardSprites();
 	void showCard(int number, int xOrder, int yOrder);
 	void hideCard(int xOrder, int yOrder);

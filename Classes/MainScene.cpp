@@ -106,28 +106,6 @@ void MainScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 	}
 }
 
-void MainScene::moveSpanLeft(int row, int emptyCol)
-{
-	for (int col = 0; col < DIM_NUM; col++)
-	{
-
-	}
-}
-
-void MainScene::moveSpanRight(int row, int startCol)
-{
-
-}
-
-void MainScene::moveSpanUp(int startRow, int col)
-{
-
-}
-
-void MainScene::moveSpanDown(int startRow, int col)
-{
-
-}
 
 void MainScene::moveLeft()
 {
