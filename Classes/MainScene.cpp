@@ -134,22 +134,34 @@ void MainScene::moveLeft()
 	CCLOG("left");
 	for (int row = 0; row < DIM_NUM; row++)
 	{
-		for (int col=0; col<DIM_NUM-1; col++)
+		int prefixIndex = -1;
+		int prefixValue = 0;
+		int currentValue = 0;
+		for (int col=0; col<DIM_NUM; col++)
 		{
-			for (int nextValue = col +1; nextValue < DIM_NUM; nextValue++)
+			currentValue = m_numbers[row][col];
+			if (currentValue > 0)
 			{
-				if (m_numbers[row][nextValue] > 0)
+				if (prefixIndex < 0)
 				{
-					if (0 == m_numbers[row][col])
-					{
-						m_numbers[row][col] = m_numbers[row][nextValue];
-						m_numbers[row][nextValue] = 0;
-					}
-					else if (m_numbers[row][col] == m_numbers[row][nextValue])
-					{
-						m_numbers[row][col] <<= 1;
-						m_numbers[row][nextValue] = 0;
-					}
+					m_numbers[row][col] = 0;
+					m_numbers[row][0] = currentValue;					
+					prefixIndex = 0;
+					prefixValue = currentValue;
+					continue;
+				}
+				if (currentValue == prefixValue)
+				{
+					m_numbers[row][prefixIndex] <<= 1;
+					m_numbers[row][col] = 0;
+					prefixValue <<= 1;
+				}
+				else
+				{
+					m_numbers[row][prefixIndex+1] = currentValue;
+					m_numbers[row][col] = 0;
+					prefixIndex += 1;
+					prefixValue = currentValue;
 				}
 			}
 		}
@@ -172,15 +184,17 @@ void MainScene::moveRight()
 			{
 				if (prefixIndex < 0)
 				{
-					prefixIndex = col;
+					m_numbers[row][col] = 0;
+					m_numbers[row][DIM_NUM-1] = currentValue;					
+					prefixIndex = DIM_NUM-1;
 					prefixValue = m_numbers[row][prefixIndex];
 					continue;
 				}
 				if (currentValue == prefixValue)
 				{
-					m_numbers[row][prefixIndex] *= 2;
+					m_numbers[row][prefixIndex] <<= 1;
 					m_numbers[row][col] = 0;
-					prefixValue *= 2;
+					prefixValue <<= 1;
 				}
 				else
 				{
@@ -198,11 +212,82 @@ void MainScene::moveRight()
 void MainScene::moveUp()
 {
 	CCLOG("up");
+	for (int col = 0; col < DIM_NUM; col++)
+	{
+		int prefixIndex = -1;
+		int prefixValue = 0;
+		int currentValue = 0;
+		for (int row=0; row<DIM_NUM; row++)
+		{
+			currentValue = m_numbers[row][col];
+			if (currentValue > 0)
+			{
+				if (prefixIndex < 0)
+				{
+					m_numbers[row][col] = 0;
+					m_numbers[0][col] = currentValue;					
+					prefixIndex = 0;
+					prefixValue = currentValue;
+					continue;
+				}
+				if (currentValue == prefixValue)
+				{
+					m_numbers[prefixIndex][col] <<= 1;
+					m_numbers[row][col] = 0;
+					prefixValue <<= 1;
+				}
+				else
+				{
+					m_numbers[prefixIndex+1][col] = currentValue;
+					m_numbers[row][col] = 0;
+					prefixIndex += 1;
+					prefixValue = currentValue;
+				}
+			}
+		}
+	}
+	updateCards();
+
 }
 
 void MainScene::moveDown()
 {
 	CCLOG("down");
+	for (int col = 0; col < DIM_NUM; col++)
+	{
+		int prefixIndex = -1;
+		int prefixValue = 0;
+		int currentValue = 0;
+		for (int row = DIM_NUM-1; row >= 0; row--)
+		{
+			currentValue = m_numbers[row][col];
+			if (currentValue > 0)
+			{
+				if (prefixIndex < 0)
+				{
+					m_numbers[row][col] = 0;
+					m_numbers[DIM_NUM-1][col] = currentValue;					
+					prefixIndex = DIM_NUM-1;
+					prefixValue = m_numbers[prefixIndex][col];
+					continue;
+				}
+				if (currentValue == prefixValue)
+				{
+					m_numbers[prefixIndex][col] <<= 1;
+					m_numbers[row][col] = 0;
+					prefixValue <<= 1;
+				}
+				else
+				{
+					m_numbers[prefixIndex-1][col] = currentValue;
+					m_numbers[row][col] = 0;
+					prefixIndex -= 1;
+					prefixValue = currentValue;
+				}
+			}
+		}
+	}
+	updateCards();
 }
 
 void MainScene::updateCards()
