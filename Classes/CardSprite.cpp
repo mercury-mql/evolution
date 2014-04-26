@@ -48,10 +48,7 @@ CardSprite* CardSprite::create(int value, const CCSize& size)
 	return NULL;
 }
 
-void CardSprite::resetValue()
-{
-	m_number = INVALID_VALUE;
-}
+
 
 void CardSprite::setNumber(int number)
 {

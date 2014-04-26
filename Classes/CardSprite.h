@@ -16,7 +16,6 @@ public:
 
 	int getNumber() {return m_number;}
 	void setNumber(int number);
-	void resetValue();
 
 	void setContentVisible(bool visible);
 	bool isContentVisible();
