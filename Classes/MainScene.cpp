@@ -30,8 +30,7 @@ bool MainScene::init()
 		this->addChild(m_bg);
 
 		createCardSprites();
-		//showRandom();
-		//showRandom();
+		AddTowRandom();
 
 		this->setTouchEnabled(true);
 
@@ -145,6 +144,7 @@ void MainScene::moveLeft()
 		}
 	}
 	updateCards();
+	AddOneRandom();
 }
 
 void MainScene::moveRight()
@@ -185,6 +185,7 @@ void MainScene::moveRight()
 		}
 	}
 	updateCards();
+	AddOneRandom();
 }
 
 void MainScene::moveUp()
@@ -225,7 +226,7 @@ void MainScene::moveUp()
 		}
 	}
 	updateCards();
-
+	AddOneRandom();
 }
 
 void MainScene::moveDown()
@@ -266,6 +267,7 @@ void MainScene::moveDown()
 		}
 	}
 	updateCards();
+	AddOneRandom();
 }
 
 void MainScene::updateCards()
@@ -288,13 +290,13 @@ void MainScene::createCardSprites()
 	{
 		for (int j=0; j<DIM_NUM; j++)
 		{
-			CardSprite* card = CardSprite::create(2, ccp(unitSize, unitSize));
+			CardSprite* card = CardSprite::create(0, ccp(unitSize, unitSize));
 			//card->setNumber(i*4+j);
             m_cards[i][j] = card;
-			m_numbers[i][j] = 2;
+			m_numbers[i][j] = 0;
 			card->setPosition(ccp(unitSize*j+105, (m_winSize.height -56)-(unitSize*i+20) ));
 			addChild(card, 2);
-			card->setContentVisible(true);
+			card->setContentVisible(false);
 		}
 	}
 }
@@ -306,6 +308,7 @@ void MainScene::showCard(int number, int xOrder, int yOrder)
 		return;
 	}
 	CardSprite* card = m_cards[xOrder][yOrder];
+	m_numbers[xOrder][yOrder] = number;
 	card->setNumber(number);
 	card->setContentVisible(true);
 }
@@ -317,23 +320,37 @@ void MainScene::hideCard(int xOrder, int yOrder)
 		return;
 	}
 	m_cards[xOrder][yOrder]->setContentVisible(false);
+	m_numbers[xOrder][yOrder] = 0;
 }
 
-void MainScene::showRandom()
+void MainScene::AddRandom(int number)
 {
 	srand(time(0));
 	int xOrder = rand() % 4;
-	srand(time(0));
+	//srand(time(0));
 	int yOrder = rand() % 4;
-	srand(time(0));
-	int number = rand() % 4;
 	while(m_cards[xOrder][yOrder]->isContentVisible())
 	{
-		srand(time(0));
+		//srand(time(0));
 		xOrder = rand() % 4;
-		srand(time(0));
+		//srand(time(0));
 		yOrder = rand() % 4;
 	}
 	showCard(number, xOrder, yOrder);
+}
+
+void MainScene::AddOneRandom()
+{
+	srand(time(0));
+	int number = (rand() %100 > 75) ? 4 : 2;
+	AddRandom(number);
+}
+
+void MainScene::AddTowRandom()
+{
+	srand(time(0));
+	int number = (rand() %100 > 75) ? 4 : 2;
+	AddRandom(number);
+	AddRandom(number);
 }
 

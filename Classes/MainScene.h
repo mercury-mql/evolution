@@ -24,10 +24,17 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+
+
+
 	void createCardSprites();
 	void showCard(int number, int xOrder, int yOrder);
 	void hideCard(int xOrder, int yOrder);
-	void showRandom();
+
+	void AddOneRandom();
+	void AddTowRandom();
+	void AddRandom(int number);
+
 	void updateCards();
 private:
 	CCSize m_winSize;
