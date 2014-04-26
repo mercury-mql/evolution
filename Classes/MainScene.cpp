@@ -114,6 +114,7 @@ void MainScene::moveLeft()
 		int prefixIndex = -1;
 		int prefixValue = 0;
 		int currentValue = 0;
+		bool prefixDo = false;
 		for (int col=0; col<DIM_NUM; col++)
 		{
 			currentValue = m_numbers[row][col];
@@ -127,11 +128,12 @@ void MainScene::moveLeft()
 					prefixValue = currentValue;
 					continue;
 				}
-				if (currentValue == prefixValue)
+				if (!prefixDo && currentValue == prefixValue)
 				{
 					m_numbers[row][col] = 0;
 					m_numbers[row][prefixIndex] <<= 1;					
 					prefixValue <<= 1;
+					prefixDo = true;
 				}
 				else
 				{
@@ -139,6 +141,7 @@ void MainScene::moveLeft()
 					m_numbers[row][prefixIndex+1] = currentValue;					
 					prefixIndex += 1;
 					prefixValue = currentValue;
+					prefixDo = false;
 				}
 			}
 		}
@@ -155,6 +158,7 @@ void MainScene::moveRight()
 		int prefixIndex = -1;
 		int prefixValue = 0;
 		int currentValue = 0;
+		bool prefixDo = false;
 		for (int col = DIM_NUM-1; col >= 0; col--)
 		{
 			currentValue = m_numbers[row][col];
@@ -168,11 +172,12 @@ void MainScene::moveRight()
 					prefixValue = m_numbers[row][prefixIndex];
 					continue;
 				}
-				if (currentValue == prefixValue)
+				if (!prefixDo && currentValue == prefixValue)
 				{
 					m_numbers[row][col] = 0;
 					m_numbers[row][prefixIndex] <<= 1;					
 					prefixValue <<= 1;
+					prefixDo = true;
 				}
 				else
 				{
@@ -180,6 +185,7 @@ void MainScene::moveRight()
 					m_numbers[row][prefixIndex-1] = currentValue;					
 					prefixIndex -= 1;
 					prefixValue = currentValue;
+					prefixDo = false;
 				}
 			}
 		}
@@ -196,6 +202,7 @@ void MainScene::moveUp()
 		int prefixIndex = -1;
 		int prefixValue = 0;
 		int currentValue = 0;
+		bool prefixDo = false;
 		for (int row=0; row<DIM_NUM; row++)
 		{
 			currentValue = m_numbers[row][col];
@@ -209,11 +216,12 @@ void MainScene::moveUp()
 					prefixValue = currentValue;
 					continue;
 				}
-				if (currentValue == prefixValue)
+				if (!prefixDo && currentValue == prefixValue)
 				{
 					m_numbers[row][col] = 0;
 					m_numbers[prefixIndex][col] <<= 1;					
 					prefixValue <<= 1;
+					prefixDo = true;
 				}
 				else
 				{
@@ -221,6 +229,7 @@ void MainScene::moveUp()
 					m_numbers[prefixIndex+1][col] = currentValue;					
 					prefixIndex += 1;
 					prefixValue = currentValue;
+					prefixDo = false;
 				}
 			}
 		}
@@ -237,6 +246,7 @@ void MainScene::moveDown()
 		int prefixIndex = -1;
 		int prefixValue = 0;
 		int currentValue = 0;
+		bool prefixDo = false;
 		for (int row = DIM_NUM-1; row >= 0; row--)
 		{
 			currentValue = m_numbers[row][col];
@@ -250,11 +260,12 @@ void MainScene::moveDown()
 					prefixValue = m_numbers[prefixIndex][col];
 					continue;
 				}
-				if (currentValue == prefixValue)
+				if (!prefixDo && currentValue == prefixValue)
 				{
 					m_numbers[row][col] = 0;
 					m_numbers[prefixIndex][col] <<= 1;					
 					prefixValue <<= 1;
+					prefixDo = true;
 				}
 				else
 				{
@@ -262,6 +273,7 @@ void MainScene::moveDown()
 					m_numbers[prefixIndex-1][col] = currentValue;					
 					prefixIndex -= 1;
 					prefixValue = currentValue;
+					prefixDo = false;
 				}
 			}
 		}
