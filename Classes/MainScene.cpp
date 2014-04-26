@@ -160,6 +160,39 @@ void MainScene::moveLeft()
 void MainScene::moveRight()
 {
 	CCLOG("right");
+	for (int row = 0; row < DIM_NUM; row++)
+	{
+		int prefixIndex = -1;
+		int prefixValue = 0;
+		int currentValue = 0;
+		for (int col = DIM_NUM-1; col >= 0; col--)
+		{
+			currentValue = m_numbers[row][col];
+			if (currentValue > 0)
+			{
+				if (prefixIndex < 0)
+				{
+					prefixIndex = col;
+					prefixValue = m_numbers[row][prefixIndex];
+					continue;
+				}
+				if (currentValue == prefixValue)
+				{
+					m_numbers[row][prefixIndex] *= 2;
+					m_numbers[row][col] = 0;
+					prefixValue *= 2;
+				}
+				else
+				{
+					m_numbers[row][prefixIndex-1] = currentValue;
+					m_numbers[row][col] = 0;
+					prefixIndex -= 1;
+					prefixValue = currentValue;
+				}
+			}
+		}
+	}
+	updateCards();
 }
 
 void MainScene::moveUp()
