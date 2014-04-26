@@ -60,3 +60,16 @@ void CardSprite::setNumber(int number)
 	m_label->setString(text);
 }
 
+void CardSprite::setContentVisible(bool visible)
+{
+	m_label->setVisible(visible);
+	if (!visible)
+	{
+		m_number = INVALID_VALUE;
+	}
+}
+
+bool CardSprite::isContentVisible()
+{
+	return m_label->isVisible();
+}

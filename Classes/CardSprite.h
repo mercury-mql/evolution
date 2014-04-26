@@ -18,6 +18,9 @@ public:
 	void setNumber(int number);
 	void resetValue();
 
+	void setContentVisible(bool visible);
+	bool isContentVisible();
+
 private:
 	CCLayerColor* m_bgColor;
 	CCLabelTTF* m_label;
