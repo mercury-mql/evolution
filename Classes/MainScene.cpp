@@ -1,5 +1,7 @@
 #include "MainScene.h"
 #include "CardSprite.h"
+#include <stdlib.h>
+#include <time.h>
 
 #define DIM_NUM 4
 
@@ -23,13 +25,12 @@ bool MainScene::init()
 		CC_BREAK_IF(!CCLayer::init());
 
 		m_winSize = CCDirector::sharedDirector()->getWinSize();
-		m_bg = CCSprite::create();
-		m_bg->setPosition(ccp(m_winSize.width/2, m_winSize.height/2));
+		m_bg = CCLayerColor::create(ccc4(180, 170, 160, 255), m_winSize.width, m_winSize.height);
 		this->addChild(m_bg);
 
 		createCardSprites();
-		showRandom();
-		showRandom();
+		//showRandom();
+		//showRandom();
 
 		this->setTouchEnabled(true);
 
@@ -104,9 +105,53 @@ void MainScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 	}
 }
 
+void MainScene::moveSpanLeft(int row, int emptyCol)
+{
+	int col = emptyCol;
+	while(col+1 < DIM_NUM)
+	{
+
+		m_cards[row][col+1]->setContentVisible(false);
+		m_cards[row][col]->setNumber(m_cards[row][col+1]->getNumber());
+		m_cards[row][col]->setContentVisible(true);
+		col++;
+	}
+}
+
+void MainScene::moveSpanRight(int row, int startCol)
+{
+
+}
+
+void MainScene::moveSpanUp(int startRow, int col)
+{
+
+}
+
+void MainScene::moveSpanDown(int startRow, int col)
+{
+
+}
+
 void MainScene::moveLeft()
 {
 	CCLOG("left");
+	for (int row = 0; row < DIM_NUM; row++)
+	{
+		int emptyCol = -1;
+		int validCol = -1;
+		for (int col=DIM_NUM-1; col >0; col--)
+		{
+			if (m_cards[row][col]->isContentVisible())
+			{
+				if (!m_cards[row][col-1]->isContentVisible())
+				{
+					moveSpanLeft(row, col-1);
+				}
+			}
+
+		}
+	}
 }
 
 void MainScene::moveRight()
@@ -132,10 +177,12 @@ void MainScene::createCardSprites()
 		for (int j=0; j<DIM_NUM; j++)
 		{
 			CardSprite* card = CardSprite::create(2, ccp(unitSize, unitSize));
+			//card->setNumber(i*4+j);
             m_cards[i][j] = card;
-			card->setPosition(ccp(unitSize*i+140, unitSize*j+20));
-			addChild(card);
-			card->setVisible(false);
+			
+			card->setPosition(ccp(unitSize*j+105, (m_winSize.height -56)-(unitSize*i+20) ));
+			addChild(card, 2);
+			card->setContentVisible(true);
 		}
 	}
 }
@@ -148,7 +195,7 @@ void MainScene::showCard(int number, int xOrder, int yOrder)
 	}
 	CardSprite* card = m_cards[xOrder][yOrder];
 	card->setNumber(number);
-	card->setVisible(true);
+	card->setContentVisible(true);
 }
 
 void MainScene::hideCard(int xOrder, int yOrder)
@@ -157,18 +204,23 @@ void MainScene::hideCard(int xOrder, int yOrder)
 	{
 		return;
 	}
-	m_cards[xOrder][yOrder]->setVisible(true);
+	m_cards[xOrder][yOrder]->setContentVisible(false);
 }
 
 void MainScene::showRandom()
 {
-	int xOrder = CCRANDOM_0_1() * 4;
-	int yOrder = CCRANDOM_0_1() * 4;
-	int number = (CCRANDOM_0_1()*10 < 5) ? 2 : 4;
-	while(m_cards[xOrder][yOrder]->isVisible())
+	srand(time(0));
+	int xOrder = rand() % 4;
+	srand(time(0));
+	int yOrder = rand() % 4;
+	srand(time(0));
+	int number = rand() % 4;
+	while(m_cards[xOrder][yOrder]->isContentVisible())
 	{
-		xOrder = CCRANDOM_0_1() * 4;
-		yOrder = CCRANDOM_0_1() * 4;
+		srand(time(0));
+		xOrder = rand() % 4;
+		srand(time(0));
+		yOrder = rand() % 4;
 	}
 	showCard(number, xOrder, yOrder);
 }

@@ -24,13 +24,17 @@ private:
 	void moveRight();
 	void moveUp();
 	void moveDown();
+	void moveSpanLeft(int row, int startCol);
+	void moveSpanRight(int row, int startCol);
+	void moveSpanUp(int startRow, int col);
+	void moveSpanDown(int startRow, int col);
 	void createCardSprites();
 	void showCard(int number, int xOrder, int yOrder);
 	void hideCard(int xOrder, int yOrder);
 	void showRandom();
 private:
 	CCSize m_winSize;
-	CCSprite* m_bg;
+	CCLayerColor* m_bg;
 	CardSprite* m_cards[4][4];
 	float m_glOrgX, m_glOrgY, m_glDstX, m_glDstY;
 };
