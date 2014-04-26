@@ -10,6 +10,7 @@ MainScene::MainScene()
 	m_glOrgX(0), m_glOrgY(0), m_glDstX(0), m_glDstY(0)
 {
 	memset(&m_cards, 0x0, sizeof(m_cards));
+	memset(&m_numbers, 0x0, sizeof(m_numbers));
 }
 
 MainScene::~MainScene()
@@ -107,14 +108,9 @@ void MainScene::ccTouchEnded(CCTouch *pTouch, CCEvent *pEvent)
 
 void MainScene::moveSpanLeft(int row, int emptyCol)
 {
-	int col = emptyCol;
-	while(col+1 < DIM_NUM)
+	for (int col = 0; col < DIM_NUM; col++)
 	{
 
-		m_cards[row][col+1]->setContentVisible(false);
-		m_cards[row][col]->setNumber(m_cards[row][col+1]->getNumber());
-		m_cards[row][col]->setContentVisible(true);
-		col++;
 	}
 }
 
@@ -138,20 +134,27 @@ void MainScene::moveLeft()
 	CCLOG("left");
 	for (int row = 0; row < DIM_NUM; row++)
 	{
-		int emptyCol = -1;
-		int validCol = -1;
-		for (int col=DIM_NUM-1; col >0; col--)
+		for (int col=0; col<DIM_NUM-1; col++)
 		{
-			if (m_cards[row][col]->isContentVisible())
+			for (int nextValue = col +1; nextValue < DIM_NUM; nextValue++)
 			{
-				if (!m_cards[row][col-1]->isContentVisible())
+				if (m_numbers[row][nextValue] > 0)
 				{
-					moveSpanLeft(row, col-1);
+					if (0 == m_numbers[row][col])
+					{
+						m_numbers[row][col] = m_numbers[row][nextValue];
+						m_numbers[row][nextValue] = 0;
+					}
+					else if (m_numbers[row][col] == m_numbers[row][nextValue])
+					{
+						m_numbers[row][col] <<= 1;
+						m_numbers[row][nextValue] = 0;
+					}
 				}
 			}
-
 		}
 	}
+	updateCards();
 }
 
 void MainScene::moveRight()
@@ -169,6 +172,19 @@ void MainScene::moveDown()
 	CCLOG("down");
 }
 
+void MainScene::updateCards()
+{
+	for (int i=0; i<DIM_NUM; i++)
+	{
+		for (int j=0; j<DIM_NUM; j++)
+		{
+			int number = m_numbers[i][j];
+			m_cards[i][j]->setNumber(number);
+			m_cards[i][j]->setContentVisible(number > 0);
+		}
+	}
+}
+
 void MainScene::createCardSprites()
 {
 	int unitSize = (m_winSize.height - 28)/4;
@@ -179,7 +195,7 @@ void MainScene::createCardSprites()
 			CardSprite* card = CardSprite::create(2, ccp(unitSize, unitSize));
 			//card->setNumber(i*4+j);
             m_cards[i][j] = card;
-			
+			m_numbers[i][j] = 2;
 			card->setPosition(ccp(unitSize*j+105, (m_winSize.height -56)-(unitSize*i+20) ));
 			addChild(card, 2);
 			card->setContentVisible(true);

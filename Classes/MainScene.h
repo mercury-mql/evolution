@@ -32,10 +32,12 @@ private:
 	void showCard(int number, int xOrder, int yOrder);
 	void hideCard(int xOrder, int yOrder);
 	void showRandom();
+	void updateCards();
 private:
 	CCSize m_winSize;
 	CCLayerColor* m_bg;
 	CardSprite* m_cards[4][4];
+	int m_numbers[4][4];
 	float m_glOrgX, m_glOrgY, m_glDstX, m_glDstY;
 };
 

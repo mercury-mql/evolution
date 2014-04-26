@@ -1,6 +1,6 @@
 #include "CardSprite.h"
 
-#define INVALID_VALUE -1
+#define INVALID_VALUE 0
 
 CardSprite::CardSprite()
 	: m_bgColor(NULL), m_label(NULL), m_number(INVALID_VALUE)
@@ -25,8 +25,8 @@ bool CardSprite::init()
 
 bool CardSprite::init(int value, const CCSize& size)
 {
-	m_number = value < 0 ? INVALID_VALUE : value;
-	const char* text = value < 0 ? "" : CCString::createWithFormat("%d", value)->getCString();
+	m_number = value <= 0 ? INVALID_VALUE : value;
+	const char* text = value <= 0 ? "" : CCString::createWithFormat("%d", value)->getCString();
 	m_bgColor = CCLayerColor::create(ccc4(200, 190, 180, 255), size.width-15, size.height-15);
 	m_label = CCLabelTTF::create(text, "Arial", 20);
 	CCSize cxtSize = m_bgColor->getContentSize();
@@ -55,8 +55,8 @@ void CardSprite::resetValue()
 
 void CardSprite::setNumber(int number)
 {
-	m_number = number < 0 ? INVALID_VALUE : number;
-	const char* text = number < 0 ? "" : CCString::createWithFormat("%d", number)->getCString();
+	m_number = number <= 0 ? INVALID_VALUE : number;
+	const char* text = number <= 0 ? "" : CCString::createWithFormat("%d", number)->getCString();
 	m_label->setString(text);
 }
 
